@@ -26,7 +26,8 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/app
-    command: sh -c "tail -f /dev/null"
+    # command: sh -c "tail -f /dev/null"
+    command: npm run dev
 
   db:
     build: ./infra/mysql
