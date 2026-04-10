@@ -1,6 +1,6 @@
 services:
   backend:
-    build: ./docker/backend
+    build: ./infra/backend
     container_name: backend_app
     volumes:
       - ./backend:/var/www/html
@@ -8,19 +8,19 @@ services:
       db:
         condition: service_healthy
   db:
-    build: ./docker/mysql
+    build: ./infra/mysql
     platform: linux/amd64
     ports:
       - 3306:3306
     volumes:
-      - ./db/data:/var/lib/mysql
+      - ./infra/db/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 5s
       retries: 5
