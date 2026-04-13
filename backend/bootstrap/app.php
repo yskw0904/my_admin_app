@@ -12,6 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // SanctumのSPA用ミドルウェアを有効化
+        $middleware->statefulApi();
+
         // 未認証時のリダイレクト先をカスタマイズ（APIの時はnullを返してエラーにする）
         $middleware->redirectGuestsTo(function (Request $request) {
             if ($request->is('api/*') || $request->expectsJson()) {
