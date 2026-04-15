@@ -2,16 +2,19 @@
 
 import { useState } from 'react';
 import axios from '@/lib/axios'; // 先ほど作成したaxiosを読み込む
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const router = useRouter();
+
     const submitLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            // ① まずはCSRFトークンを取得（挨拶）
+            // ① CSRFトークンを取得
             await axios.get('/sanctum/csrf-cookie');
 
             // ② ログイン情報を送信
@@ -20,10 +23,9 @@ export default function Login() {
                 password,
             });
 
-            alert(response.data.message); // 「ログインに成功しました」と出るはず！
+            alert(response.data.message);
             
-            // （ここにログイン成功後のダッシュボードへの遷移処理などを書きます）
-
+            router.push('/');
         } catch (error: any) {
             // バリデーションエラーなどの処理
             if (error.response && error.response.status === 422) {
