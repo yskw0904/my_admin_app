@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default async function Home() {
   const apiUrl = process.env.API_URL;
   const req = await fetch(`${apiUrl}/hello`, {

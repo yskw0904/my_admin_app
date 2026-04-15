@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from '@/lib/axios'; // 先ほど作成したaxiosを読み込む
 import { useRouter } from 'next/navigation';
 
@@ -9,6 +9,19 @@ export default function Login() {
     const [password, setPassword] = useState('');
 
     const router = useRouter();
+
+    useEffect(() => {
+        const checkUserLoggedIn = async () => {
+            try {
+                await axios.get('/api/user');
+                router.push('/');
+            } catch (error) {
+                console.log('未ログイン状態です');
+            }
+        }
+
+        checkUserLoggedIn();
+    }, [router])
 
     const submitLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
