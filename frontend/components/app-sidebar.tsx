@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Sidebar,
@@ -10,12 +10,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Plus } from "lucide-react";
+import { FilePenLine, UserRoundCog } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export function AppSidebar() {
-const [mounted, setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // マウント（ブラウザでの描画準備）が完了した後にだけ中身を出す
   useEffect(() => {
@@ -28,10 +28,17 @@ const [mounted, setMounted] = useState(false);
     return <div className="min-h-screen bg-background" />;
   }
 
-  const projects = [{ name: "aaa", url: "/hoge" }];
+  const projects = [{ name: "設定", url: "/setting" }];
   return (
     <Sidebar>
-      <SidebarHeader />
+      <SidebarHeader>
+        <SidebarMenuButton asChild>
+          <Link href="/">
+            <FilePenLine />
+            <span className="text-lg">生活リズム管理</span>
+          </Link>
+        </SidebarMenuButton>
+      </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
@@ -39,7 +46,7 @@ const [mounted, setMounted] = useState(false);
               <SidebarMenuItem key={project.name}>
                 <SidebarMenuButton asChild>
                   <Link href={project.url}>
-                    <Plus />
+                    <UserRoundCog />
                     <span>{project.name}</span>
                   </Link>
                 </SidebarMenuButton>
