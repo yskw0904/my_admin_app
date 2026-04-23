@@ -10,33 +10,17 @@ export default function Login() {
 
     const router = useRouter();
 
-    useEffect(() => {
-        const checkUserLoggedIn = async () => {
-            try {
-                await axios.get('/api/user');
-                router.push('/');
-            } catch (error) {
-                console.log('未ログイン状態です');
-            }
-        }
-
-        checkUserLoggedIn();
-    }, [router])
-
     const submitLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         try {
-            // ① CSRFトークンを取得
-            await axios.get('/sanctum/csrf-cookie');
-
-            // ② ログイン情報を送信
+            // ログイン情報を送信
             const response = await axios.post('/api/login', {
                 email,
                 password,
             });
 
-            alert(response.data.message);
+            document.cookie = "is_logged_in=true; path=/; max-age=86400";
             
             router.push('/');
         } catch (error: any) {
