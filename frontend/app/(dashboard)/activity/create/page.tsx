@@ -1,5 +1,7 @@
 export default function Create() {
-    return (
-        <p>Create</p>
-    );
+  return (
+    <>
+      <h1>生活リズムの記録</h1>
+    </>
+  );
 }
