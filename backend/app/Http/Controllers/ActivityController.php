@@ -3,30 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreActivityRequest;
-use App\Models\Activity;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
+use App\Services\Activity\ActivityStoreService;
 
 class ActivityController extends Controller
 {
-    public function store(StoreActivityRequest $request) {
+    public function store(StoreActivityRequest $request, ActivityStoreService $service) {
         $validated = $request->validated();
 
-        $exists = Activity::where('user_id', $request->user()->id)
-            ->where(function ($query) use ($validated) {
-                $query->where(function ($q) use ($validated) {
-                    $q->where('start_time', '<', $validated['end_time'])
-                        ->where('end_time', '>', $validated['start_time']);
-                });
-            })->exists();
-
-        if ($exists) {
-            throw ValidationException::withMessages([
-                'start_time' => ['その時間帯には既に別の予定が入っています。'],
-            ]);
-        }
-
-        $request->user()->activities()->create($validated);
+        $service->execute($request->user()->id, $validated);
 
         return response()->json([
             'message' => '保存に成功しました。'
