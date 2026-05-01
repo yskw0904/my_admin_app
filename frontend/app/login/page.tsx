@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import axios from '@/lib/axios'; // 先ほど作成したaxiosを読み込む
+import { useState } from 'react';
+import axios from '@/lib/axios';
 import { useRouter } from 'next/navigation';
 
 export default function Login() {
@@ -14,6 +14,8 @@ export default function Login() {
         e.preventDefault();
 
         try {
+            await axios.get('/sanctum/csrf-cookie', { withCredentials: true });
+
             // ログイン情報を送信
             const response = await axios.post('/api/login', {
                 email,
