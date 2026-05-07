@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('daily_record_id')->constrained()->cascadeOnDelete();
 
             // 行動の種類（Enumで定義することで不正な値を防ぐ）
             $table->enum('activity_type', [
@@ -30,7 +30,6 @@ return new class extends Migration
             $table->dateTime('start_time')->index();
             $table->dateTime('end_time')->index();
 
-            $table->text('note')->nullable(); // 補足メモ用（任意）
             $table->timestamps();
         });
     }
