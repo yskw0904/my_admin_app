@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Repositories\DailyRecord\DailyRecordRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +15,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             \App\Repositories\Activity\ActivityRepositoryInterface::class,
             \App\Repositories\Activity\EloquestActivityRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\DailyRecord\DailyRecordRepositoryInterface::class,
+            \App\Repositories\DailyRecord\EloquestDailyRecordRepository::class
         );
     }
 

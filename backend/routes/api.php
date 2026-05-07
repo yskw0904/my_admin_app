@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ConstantController;
+use App\Http\Controllers\DailyRecordController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/activity/store', [ActivityController::class, 'store']);
+    Route::post('/daily-record/store', [DailyRecordController::class, 'store']);
 });
-    
+
 Route::get('/constants/activity-types', [ConstantController::class, 'activityType']);
