@@ -13,11 +13,10 @@ class Activity extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'daily_record_id',
         'activity_type',
         'start_time',
         'end_time',
-        'note',
     ];
 
     protected $casts = [
@@ -25,4 +24,9 @@ class Activity extends Model
         'start_time' => 'datetime',
         'end_time' => 'datetime',
     ];
+
+    public function dailyRecord()
+    {
+        return $this->belongsTo(DailyRecord::class);
+    }
 }
