@@ -5,5 +5,5 @@ interface ActivityRepositoryInterface
 {
     public function store(array $data): \App\Models\Activity;
 
-    public function isOverlapping(int $userId, string $start, string $end): bool;
+    public function isOverlapping(int $dailyRecordId, string $start, string $end): bool;
 }

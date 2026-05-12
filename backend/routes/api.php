@@ -28,7 +28,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/activity/store', [ActivityController::class, 'store']);
-    Route::post('/daily-record/store', [DailyRecordController::class, 'store']);
+    Route::post('/daily-record', [DailyRecordController::class, 'store']);
+    Route::get('/daily-record', [DailyRecordController::class, 'fetch']);
 });
 
 Route::get('/constants/activity-types', [ConstantController::class, 'activityType']);

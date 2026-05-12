@@ -1,6 +1,7 @@
 <?
 namespace App\Services\Activity;
 
+use App\Models\DailyRecord;
 use App\Repositories\Activity\ActivityRepositoryInterface;
 use Illuminate\Validation\ValidationException;
 
@@ -15,8 +16,14 @@ class ActivityStoreService
 
     public function execute(int $userId, array $data)
     {
+        $dailyRecord = DailyRecord::firstOrCreate(
+            ['user_id' => $userId, 'date' => $data['date']], // 検索条件
+            ['note' => null] // 新規作成時の追加データ
+        );
+        $dailyRecordId = $dailyRecord->id;
+
         $isOverlapping = $this->repository->isOverlapping(
-            $userId,
+            $dailyRecordId,
             $data['start_time'],
             $data['end_time']
         );
@@ -27,7 +34,12 @@ class ActivityStoreService
             ]);
         }
 
-        $data['user_id'] = $userId;
-        return $this->repository->store($data);
+        $activityData = [
+            'daily_record_id' => $dailyRecordId,
+            'activity_type'   => $data['activity_type'],
+            'start_time'      => $data['start_time'],
+            'end_time'        => $data['end_time'],
+        ];
+        return $this->repository->store($activityData);
     }
 }

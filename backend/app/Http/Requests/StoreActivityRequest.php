@@ -25,6 +25,7 @@ class StoreActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'date'    => ['required', 'date'],
             'activity_type' => ['required', new Enum(ActivityType::class)],
             'start_time'    => ['required', 'date'],
             'end_time'      => ['required', 'date', 'after:start_time'], // 開始より後であること
