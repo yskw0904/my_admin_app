@@ -2,13 +2,18 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function proxy(request: NextRequest) {
-    const isLoggedIn = request.cookies.get('is_logged_in');
+    const hasSession = request.cookies.has('laravel-session');
 
-    if (!isLoggedIn && request.nextUrl.pathname !== '/login') {
-        return NextResponse.redirect(new URL('/login', request.url));
+    if (!hasSession && request.nextUrl.pathname !== '/login') {
+        const loginUrl = new URL('/login', request.url);
+        loginUrl.searchParams.set('error', 'session_expired');
+
+        const response = NextResponse.redirect(loginUrl);
+        response.cookies.delete('is_logged_in');
+        return response;
     }
 
-    if (isLoggedIn && request.nextUrl.pathname.startsWith('/login')) {
+    if (hasSession && request.nextUrl.pathname.startsWith('/login')) {
         return NextResponse.redirect(new URL('/', request.url));
     }
 
